@@ -1,0 +1,139 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="CampusBuddy"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#4B0082"
+            android:layout_marginBottom="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:elevation="12dp"
+            android:padding="8dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Next Due Assignment"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvNextDueAssignment"
+                    android:text="Loading..."
+                    android:textSize="16sp"
+                    android:textColor="#555555"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:background="#EFEFEF"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:lineSpacingExtra="2dp"
+                    android:ellipsize="none"
+                    android:scrollHorizontally="false"
+                    android:backgroundTint="#EEEEEE" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#4B0082">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewAssignments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📋 View All Assignments"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="#FFFFFF"
+                android:padding="12dp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#FFD700">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🗺️ Open Campus Map"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="#000000"
+                android:padding="12dp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#4B0082">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="👤 My Profile"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="#FFFFFF"
+                android:padding="12dp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#4B0082">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLostFound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🔍 Lost and Found"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="#FFFFFF"
+                android:padding="12dp" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

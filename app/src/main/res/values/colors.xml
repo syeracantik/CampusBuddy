@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="uitmPurple">#582A72</color>       <!-- UiTM official purple -->
+    <color name="dustyPink">#DDB7A0</color>        <!-- Button -->
+    <color name="sageGreen">#A3B18A</color>        <!-- Input border -->
+    <color name="taupe">#B0A695</color>            <!-- Hint text -->
+    <color name="charcoal">#333333</color>         <!-- Text -->
+    <color name="creamWhite">#FAF9F6</color>       <!-- Background -->
+</resources>

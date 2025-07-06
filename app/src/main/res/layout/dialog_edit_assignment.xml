@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <!-- Assignment Title -->
+    <EditText
+        android:id="@+id/etEditTitle"
+        android:hint="Assignment Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:textColor="#000000"
+        android:textColorHint="#808080" />
+
+    <!-- Due Date (clickable TextView) -->
+    <TextView
+        android:id="@+id/tvEditDate"
+        android:hint="Due Date"
+        android:text="Select Date and Time"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:textColor="#000000"
+        android:textColorHint="#808080" />
+
+</LinearLayout>

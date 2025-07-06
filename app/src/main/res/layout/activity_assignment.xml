@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvAssignmentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Assignments"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#4B0082"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etAssignmentTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Assignment Title"
+        android:background="@drawable/rounded_edittext"
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textColorHint="#808080"/>
+
+    <Button
+        android:id="@+id/btnPickDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick Due Date and Time"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FFD700"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tvSelectedDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No date selected"
+        android:textColor="#333"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/btnAddAssignment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Assignment"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#4B0082"
+        android:textColor="#FFFFFF"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerAssignments"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>

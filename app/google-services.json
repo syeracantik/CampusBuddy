@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143024432658",
+    "project_id": "campus-buddy-ict602",
+    "storage_bucket": "campus-buddy-ict602.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143024432658:android:1f8acf1ab347e343cb9acb",
+        "android_client_info": {
+          "package_name": "com.groupprojek.campusbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOu9K4qrQ9oMDP8kf17whCqzKxmlBU26A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
