@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class AssignmentDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "CampusBuddy.db";
-    private static final int DATABASE_VERSION = 2;  // ⬅️ bump version untuk tambah column
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_NAME = "assignments";
     private static final String COLUMN_ID = "id";
