@@ -12,7 +12,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:titleTextColor="@android:color/white"/>
 
-
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
