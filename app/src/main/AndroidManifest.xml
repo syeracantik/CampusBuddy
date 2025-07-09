@@ -13,10 +13,9 @@
         <activity
             android:name=".BaseActivity"
             android:exported="false" />
-        <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDr64tr-Y3YopYDi7PmbUou96Q0o3wSYlI" /> <!-- Activities -->
+            android:value="AIzaSyDr64tr-Y3YopYDi7PmbUou96Q0o3wSYlI" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -26,6 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -43,10 +45,10 @@
             android:exported="false" />
         <activity
             android:name=".LostFoundActivity"
-            android:exported="false" /> <!-- Broadcast Receiver -->
+            android:exported="false" />
         <receiver
             android:name=".AssignmentReminderReceiver"
-            android:exported="false" /> <!-- FileProvider for image saving -->
+            android:exported="false" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
