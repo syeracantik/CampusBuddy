@@ -1,70 +1,55 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- Image -->
-    <ImageView
-        android:id="@+id/imgLostItem"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_upload"
-        android:background="@drawable/rounded_image"
-        android:scaleType="centerCrop"/>
-
-    <!-- Button -->
-    <Button
-        android:id="@+id/btnChangePhotoLost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload Item Photo"
-        android:textColor="#000000"
-        android:backgroundTint="#FFD700"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Item Title -->
-    <EditText
-        android:id="@+id/etItemTitle"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Item Title"
-        android:background="@drawable/rounded_edittext"
-        android:padding="12dp"
-        android:textColor="#000000"
-        android:textColorHint="#808080"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="wrap_content">
 
-    <!-- Item Description -->
-    <EditText
-        android:id="@+id/etItemDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description (e.g. Found at... )"
-        android:background="@drawable/rounded_edittext"
-        android:padding="12dp"
-        android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        <!-- Item Title -->
+        <EditText
+            android:id="@+id/etItemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Item Title"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#808080"
+            android:layout_marginBottom="8dp"/>
 
-    <!-- Submit Button -->
-    <Button
-        android:id="@+id/btnSubmitLostItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit Lost Item"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#4B0082"
-        android:layout_marginTop="24dp"/>
+        <!-- Item Description -->
+        <EditText
+            android:id="@+id/etItemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description (e.g. found at…)"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#808080"/>
 
-    <!-- 📝 RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerLostFound"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="16dp"/>
-</LinearLayout>
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmitLostItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Lost Item"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4B0082"
+            android:layout_marginTop="24dp"/>
+
+        <!-- RecyclerView (list) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerLostFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -16,130 +16,103 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.*;
+import java.util.*;
+import android.text.TextUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class LostFoundActivity extends BaseActivity {
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-    ImageView imgLostItem;
-    Button btnChangePhoto, btnSubmit;
-    EditText etItemTitle, etItemDescription;
-    RecyclerView recyclerView;
+public class LostFoundActivity extends AppCompatActivity {
 
-    Uri photoUri;
-    File photoFile;
+    private EditText etTitle, etDesc;
+    private Button   btnSubmit;
+    private LostFoundAdapter adapter;
 
-    LostFoundDBHelper dbHelper;
-    LostFoundAdapter adapter;
-    ArrayList<LostFoundModel> list;
+    // ---------- Firebase ----------
+    private FirebaseFirestore db;
+    private CollectionReference lostFoundCol;
+    private FirebaseAuth auth;
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_lostfound;
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lostfound);
 
-    @Override
-    protected void initViews() {
-        setToolbarTitle("Lost & Found");
-
-        imgLostItem = findViewById(R.id.imgLostItem);
-        btnChangePhoto = findViewById(R.id.btnChangePhotoLost);
+        // ----- View binding -----
+        etTitle   = findViewById(R.id.etItemTitle);
+        etDesc    = findViewById(R.id.etItemDescription);
         btnSubmit = findViewById(R.id.btnSubmitLostItem);
-        etItemTitle = findViewById(R.id.etItemTitle);
-        etItemDescription = findViewById(R.id.etItemDescription);
-        recyclerView = findViewById(R.id.recyclerLostFound);
+        RecyclerView rv = findViewById(R.id.recyclerLostFound);
 
-        dbHelper = new LostFoundDBHelper(this);
+        // ----- Firebase init -----
+        db          = FirebaseFirestore.getInstance();
+        lostFoundCol= db.collection("lostFound");
+        auth        = FirebaseAuth.getInstance();  // perlu jika guna Auth rules
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        loadData();
+        // ----- RecyclerView -----
+        adapter = new LostFoundAdapter();
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
 
-        btnChangePhoto.setOnClickListener(v -> showImagePickerOptions());
-        btnSubmit.setOnClickListener(v -> submitLostItem());
-    }
+        // ----- Realtime listener -----
+        lostFoundCol.orderBy("timestamp", Query.Direction.DESCENDING)
+                .addSnapshotListener(this, (snap, err) -> {
+                    if (err != null || snap == null) return;
 
-    private void showImagePickerOptions() {
-        String[] options = {"Take Photo", "Choose from Gallery"};
-        new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Select Image")
-                .setItems(options, (dialog, which) -> {
-                    if (which == 0) openCamera();
-                    else openGallery();
-                })
-                .show();
-    }
-
-    private void openCamera() {
-        try {
-            photoFile = createImageFile();
-            photoUri = FileProvider.getUriForFile(
-                    this,
-                    getPackageName() + ".provider",
-                    photoFile
-            );
-
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            cameraLauncher.launch(intent);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failed to create image file", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "LOST_" + timeStamp;
-        File storageDir = getExternalFilesDir(null);
-        return File.createTempFile(imageFileName, ".jpg", storageDir);
-    }
-
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryLauncher.launch(intent);
-    }
-
-    private final ActivityResultLauncher<Intent> cameraLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == RESULT_OK) {
-                            imgLostItem.setImageURI(photoUri);
+                    List<LostFoundModel> list = new ArrayList<>();
+                    for (DocumentSnapshot doc : snap.getDocuments()) {
+                        LostFoundModel m = doc.toObject(LostFoundModel.class);
+                        if (m != null) {
+                            // Tambah ID dokumen (tidak auto‑map)
+                            list.add(new LostFoundModel(
+                                    doc.getId(),
+                                    m.getItemName(),
+                                    m.getDescription(),
+                                    m.getStatus(),
+                                    m.getTimestamp()));
                         }
-                    });
+                    }
+                    adapter.submit(list);
+                });
 
-    private final ActivityResultLauncher<Intent> galleryLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            photoUri = result.getData().getData();
-                            imgLostItem.setImageURI(photoUri);
-                        }
-                    });
+        // ----- Submit button -----
+        btnSubmit.setOnClickListener(v -> saveLostItem());
+    }
 
-    private void submitLostItem() {
-        String title = etItemTitle.getText().toString().trim();
-        String description = etItemDescription.getText().toString().trim();
-
-        if (title.isEmpty() || description.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+    private void saveLostItem() {
+        // *Jika* rules create memerlukan login, pastikan user ada:
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(this, "Sila log masuk dahulu", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String imagePath = (photoUri != null) ? photoUri.toString() : "";
+        // Dapatkan input
+        String title = etTitle.getText().toString().trim();
+        String desc  = etDesc .getText().toString().trim();
 
-        dbHelper.addItem(title, description, imagePath);
-        Toast.makeText(this, "Item saved!", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(title)) {
+            etTitle.setError("Required");
+            return;
+        }
 
-        etItemTitle.setText("");
-        etItemDescription.setText("");
-        imgLostItem.setImageResource(R.drawable.ic_upload);
-        photoUri = null;
+        Map<String, Object> data = new HashMap<>();
+        data.put("itemName",   title);
+        data.put("description",desc);
+        data.put("status",     "lost");
+        data.put("timestamp",  System.currentTimeMillis());
 
-        loadData();
-    }
-
-    private void loadData() {
-        list = dbHelper.getAllItems();
-        adapter = new LostFoundAdapter(this, list);
-        recyclerView.setAdapter(adapter);
+        lostFoundCol.add(data)
+                .addOnSuccessListener(doc -> {
+                    Toast.makeText(this, "Item added", Toast.LENGTH_SHORT).show();
+                    etTitle.setText("");
+                    etDesc .setText("");
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

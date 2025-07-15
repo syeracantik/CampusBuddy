@@ -12,48 +12,48 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import java.util.List;
+
 public class LostFoundAdapter extends RecyclerView.Adapter<LostFoundAdapter.ViewHolder> {
 
-    Context context;
-    ArrayList<LostFoundModel> list;
+    private final List<LostFoundModel> items = new ArrayList<>();
 
-    public LostFoundAdapter(Context context, ArrayList<LostFoundModel> list) {
-        this.context = context;
-        this.list = list;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.lostfound_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int pos) {
-        LostFoundModel item = list.get(pos);
-        holder.tvTitle.setText(item.getTitle());
-        holder.tvDesc.setText(item.getDescription());
-        if (!item.getImageUri().isEmpty()) {
-            holder.imgItem.setImageURI(Uri.parse(item.getImageUri()));
-        } else {
-            holder.imgItem.setImageResource(R.drawable.ic_upload);
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
+    // ---------- ViewHolder ----------
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgItem;
-        TextView tvTitle, tvDesc;
+        TextView tvItemTitle, tvItemDesc;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imgItem = itemView.findViewById(R.id.imgItem);
-            tvTitle = itemView.findViewById(R.id.tvItemTitle);
-            tvDesc = itemView.findViewById(R.id.tvItemDesc);
+        ViewHolder(View v) {
+            super(v);
+            tvItemTitle = v.findViewById(R.id.tvItemTitle);
+            tvItemDesc  = v.findViewById(R.id.tvItemDesc);
         }
     }
+
+    // ---------- Public helper ----------
+    public void submit(List<LostFoundModel> list) {
+        items.clear();
+        items.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    // ---------- Adapter overrides ----------
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.lostfound_item, parent, false);   // ← nama layout awak
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder h, int position) {
+        LostFoundModel m = items.get(position);
+
+        h.tvItemTitle.setText(m.getItemName());
+        h.tvItemDesc .setText(m.getDescription());
+    }
+
+    @Override
+    public int getItemCount() { return items.size(); }
 }

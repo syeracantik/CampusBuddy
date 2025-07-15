@@ -33,37 +33,44 @@ android {
 }
 
 dependencies {
-    // Android UI libraries
+    /* ---------- UI basic ---------- */
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation 'androidx.cardview:cardview:1.0.0'
 
-    // Firebase BOM (centralized version control)
+    /* ---------- Firebase ---------- */
+    // BOM = pastikan semua library Firebase selari
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
 
-    // Firebase features
+    // Authentication
     implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-database'
+
+    // Firestore (online DB pilihan kita)
+    implementation 'com.google.firebase:firebase-firestore'
+
+    // Storage (jika mahu simpan gambar)
     implementation 'com.google.firebase:firebase-storage'
 
-    // Firebase Identity/Google Login (optional)
+    // Realtime Database (for DatabaseReference)
+    implementation 'com.google.firebase:firebase-database'
+
+    /* ---------- Google Sign‑In (optional) ---------- */
     implementation libs.credentials
     implementation libs.credentials.play.services.auth
-    implementation libs.googleid
+    implementation libs.googleid       // pastikan alias ini wujud
 
-    // Google Maps and Location
+    /* ---------- Google Maps ---------- */
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
-    // Glide for profile image
+    /* ---------- Glide ---------- */
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
-    // Testing
+    /* ---------- Testing ---------- */
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-
-    implementation 'androidx.cardview:cardview:1.0.0'
 }
