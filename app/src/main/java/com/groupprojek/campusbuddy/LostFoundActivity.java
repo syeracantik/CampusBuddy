@@ -27,39 +27,38 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LostFoundActivity extends AppCompatActivity {
+public class LostFoundActivity extends BaseActivity {
 
     private EditText etTitle, etDesc;
     private Button   btnSubmit;
     private LostFoundAdapter adapter;
 
-    // ---------- Firebase ----------
     private FirebaseFirestore db;
     private CollectionReference lostFoundCol;
     private FirebaseAuth auth;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lostfound);
+    protected int getLayoutResId() {
+        return R.layout.activity_lostfound;
+    }
 
-        // ----- View binding -----
+    @Override
+    protected void initViews() {
+        setToolbarTitle("Lost & Found");
+
         etTitle   = findViewById(R.id.etItemTitle);
         etDesc    = findViewById(R.id.etItemDescription);
         btnSubmit = findViewById(R.id.btnSubmitLostItem);
         RecyclerView rv = findViewById(R.id.recyclerLostFound);
 
-        // ----- Firebase init -----
-        db          = FirebaseFirestore.getInstance();
-        lostFoundCol= db.collection("lostFound");
-        auth        = FirebaseAuth.getInstance();  // perlu jika guna Auth rules
+        db           = FirebaseFirestore.getInstance();
+        lostFoundCol = db.collection("lostFound");
+        auth         = FirebaseAuth.getInstance();
 
-        // ----- RecyclerView -----
         adapter = new LostFoundAdapter();
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-        // ----- Realtime listener -----
         lostFoundCol.orderBy("timestamp", Query.Direction.DESCENDING)
                 .addSnapshotListener(this, (snap, err) -> {
                     if (err != null || snap == null) return;
@@ -68,7 +67,6 @@ public class LostFoundActivity extends AppCompatActivity {
                     for (DocumentSnapshot doc : snap.getDocuments()) {
                         LostFoundModel m = doc.toObject(LostFoundModel.class);
                         if (m != null) {
-                            // Tambah ID dokumen (tidak auto‑map)
                             list.add(new LostFoundModel(
                                     doc.getId(),
                                     m.getItemName(),
@@ -80,18 +78,15 @@ public class LostFoundActivity extends AppCompatActivity {
                     adapter.submit(list);
                 });
 
-        // ----- Submit button -----
         btnSubmit.setOnClickListener(v -> saveLostItem());
     }
 
     private void saveLostItem() {
-        // *Jika* rules create memerlukan login, pastikan user ada:
         if (auth.getCurrentUser() == null) {
             Toast.makeText(this, "Sila log masuk dahulu", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Dapatkan input
         String title = etTitle.getText().toString().trim();
         String desc  = etDesc .getText().toString().trim();
 
@@ -113,6 +108,6 @@ public class LostFoundActivity extends AppCompatActivity {
                     etDesc .setText("");
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show());
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
